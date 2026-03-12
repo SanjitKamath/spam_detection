@@ -1,30 +1,266 @@
-# Email Classification System
+# SpamGuard – AI Spam & Phishing Detection System
 
-## Overview
-This project is an email classification system designed to detect spam using a RandomForestClassifier. It involves generating synthetic email data, feature engineering, model training, and performance evaluation.
+SpamGuard is a machine learning based spam and phishing detection system designed to analyze text messages and emails for malicious content.
 
-## Features
-- **Synthetic Data Generation:** Creates realistic email data with attributes like text content, headers, and sender reputation.
-- **Data Preprocessing:** Standardizes data for improved model performance.
-- **Model Training:** Utilizes a RandomForestClassifier for effective spam detection.
-- **Evaluation Metrics:** Includes accuracy scores, confusion matrices, and classification reports.
-- **Visualization:** Uses Seaborn and Matplotlib to visualize key insights from the model's predictions.
+The system combines Natural Language Processing (NLP), URL analysis, and domain reputation checks to classify messages as **spam or legitimate**.
 
-## Requirements
-- Python 3.x
-- Pandas
-- Scikit-learn
-- Seaborn
-- Matplotlib
+It also includes a REST API and browser extension support, allowing real-time scanning of suspicious messages.
 
-## Usage
-1. Run the data generation script to create the dataset or use the existing dataset.
-2. Execute the model training script to build and evaluate the classifier.
-3. Use the visualization tools to interpret results effectively.
+---
 
-## Results
-The RandomForestClassifier achieves high accuracy, with performance visualizations offering clear insights into model predictions.
+# Features
 
-## Contributing
-Contributions are welcome! Feel free to submit issues or pull requests to improve the project.
+### Machine Learning Spam Detection
+
+* RandomForest classifier
+* TF-IDF text vectorization
+* High accuracy spam classification
+
+### Phishing Detection
+
+Detects common phishing indicators such as:
+
+* suspicious domains
+* shortened URLs
+* IP-based URLs
+* abnormal link length
+
+### NLP Analysis
+
+Uses TF-IDF to detect:
+
+* spam keywords
+* phishing phrases
+* marketing spam patterns
+
+### API Support
+
+FastAPI backend allows:
+
+* web apps
+* browser extensions
+* automated email scanners
+
+### Browser Extension Integration
+
+A browser extension can send messages to the backend API to determine whether content is spam.
+
+---
+
+# Project Structure
+
+```
+spam_guard/
+│
+├── api/
+│   └── spam_api.py
+│
+├── data/
+│   └── spam_dataset.csv
+│
+├── models/
+│   ├── spam_model.pkl
+│   └── tfidf_vectorizer.pkl
+│
+├── src/
+│   ├── trainer.py
+│   ├── predictor.py
+│   ├── nlp_features.py
+│   ├── url_features.py
+│   └── reputation.py
+│
+├── extension/
+│   ├── manifest.json
+│   ├── popup.html
+│   └── popup.js
+│
+├── requirements.txt
+└── README.md
+```
+
+---
+
+# Installation
+
+Clone the repository
+
+```
+git clone https://github.com/YOUR_USERNAME/spam_guard.git
+cd spam_guard
+```
+
+Create virtual environment
+
+```
+python -m venv venv
+```
+
+Activate environment
+
+Linux / Mac
+
+```
+source venv/bin/activate
+```
+
+Windows
+
+```
+venv\Scripts\activate
+```
+
+Install dependencies
+
+```
+pip install -r requirements.txt
+```
+
+---
+
+# Dataset
+
+Place the training dataset in:
+
+```
+data/spam_dataset.csv
+```
+
+Dataset format:
+
+```
+text,label
+message_text_here,0_or_1
+```
+
+Example:
+
+```
+text,label
+Win a free iPhone now!,1
+Let's meet tomorrow for lunch,0
+```
+
+Recommended datasets:
+
+* SMS Spam Collection Dataset
+* Enron Email Dataset
+* SpamAssassin Public Corpus
+
+---
+
+# Training the Model
+
+Run:
+
+```
+python src/trainer.py
+```
+
+This will generate:
+
+```
+models/spam_model.pkl
+models/tfidf_vectorizer.pkl
+```
+
+---
+
+# Running the API
+
+Start the FastAPI server:
+
+```
+uvicorn api.spam_api:app --reload
+```
+
+API will run at:
+
+```
+http://127.0.0.1:8000
+```
+
+Interactive documentation:
+
+```
+http://127.0.0.1:8000/docs
+```
+
+---
+
+# API Usage Example
+
+Request
+
+```
+POST /scan
+```
+
+Example JSON request
+
+```
+{
+"text": "Congratulations! You won a free prize. Click here!"
+}
+```
+
+Example response
+
+```
+{
+"prediction": "spam",
+"confidence": 0.97
+}
+```
+
+---
+
+# Browser Extension
+
+The extension sends message text to the backend API and displays whether it is spam.
+
+Steps:
+
+1. Open Chrome Extensions
+2. Enable Developer Mode
+3. Click **Load unpacked**
+4. Select the `extension/` folder
+
+You can now test messages through the popup interface.
+
+---
+
+# Detection Pipeline
+
+```
+User Message
+     │
+     ▼
+Feature Extraction
+     │
+     ├─ TF-IDF NLP analysis
+     ├─ URL feature extraction
+     └─ Domain reputation check
+     │
+     ▼
+RandomForest Model
+     │
+     ▼
+Spam / Not Spam Classification
+```
+
+---
+
+# Future Improvements
+
+Possible upgrades include:
+
+* BERT based spam classification
+* VirusTotal URL reputation integration
+* Gmail API integration
+* Email header analysis (SPF, DKIM, DMARC)
+* phishing domain blacklist
+* real-time email scanning
+
+---
+
 
